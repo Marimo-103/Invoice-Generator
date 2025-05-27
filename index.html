@@ -1,205 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Invoice Generator</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice Generator</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f7fbff;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .form-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .invoice-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .remove-btn {
+      margin-top: 0.25rem;
+      height: 38px;
+      font-size: 0.8rem;
+      padding: 0 10px;
+    }
+
+    .invoice-preview {
+      page-break-before: always;
+    }
+
+    @media print {
       body {
-        background-color: #f8fcff;
-        padding: 20px;
+        margin: 0;
       }
 
-      #previewBusinessName {
-        font-size: 2.5rem;
-        font-weight: 600;
+      .no-print {
+        display: none;
       }
 
-      .container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
+      .invoice-section {
+        margin: 0;
+        box-shadow: none;
+        page-break-inside: avoid;
+        width: 100vw;
+        height: 100vh;
+        padding: 40px;
       }
+    }
 
-      .form-container,
-      .invoice-preview {
-        flex: 1;
-        min-width: 400px;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-      }
-
-      .form-group {
-        margin-bottom: 15px;
-      }
-
-      .remove-btn {
-        margin-left: 10px;
-        padding: 4px 8px;
-        font-size: 14px;
-      }
-
-      table th,
-      table td {
-        vertical-align: middle;
-      }
-
-      @media print {
-        body * {
-          visibility: hidden;
-        }
-
-        .invoice-preview,
-        .invoice-preview * {
-          visibility: visible;
-        }
-
-        .invoice-preview {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          padding: 0;
-          margin: 0;
-        }
-
-        .no-print {
-          display: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Sender Form -->
-      <div class="form-container">
-        <h5 class="mb-3">Sender Information</h5>
-        <div class="row g-2">
-          <div class="col-md-6">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Your Name"
-              id="senderName"
-            />
+    h4.business-name {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <!-- Form Section -->
+      <div class="col-md-6 form-section">
+        <h5>Sender Information</h5>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Your Name:</label>
+            <input type="text" class="form-control" id="senderName">
           </div>
-          <div class="col-md-6">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Your Number"
-              id="senderPhone"
-            />
+          <div class="form-group col-md-6">
+            <label>Your Number:</label>
+            <input type="text" class="form-control" id="senderNumber">
           </div>
-          <div class="col-md-6">
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Your Email"
-              id="senderEmail"
-            />
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Your Email:</label>
+            <input type="email" class="form-control" id="senderEmail">
           </div>
-          <div class="col-md-6">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Your ABN"
-              id="senderABN"
-            />
+          <div class="form-group col-md-6">
+            <label>Your ABN:</label>
+            <input type="text" class="form-control" id="senderABN">
           </div>
         </div>
 
-        <hr />
         <h5>Invoice Details</h5>
-        <input
-          type="text"
-          class="form-control mb-2"
-          placeholder="Business Name"
-          id="businessName"
-        />
-        <input
-          type="text"
-          class="form-control mb-2"
-          placeholder="ABN"
-          id="businessABN"
-        />
-        <input
-          type="text"
-          class="form-control mb-2"
-          placeholder="Phone"
-          id="businessPhone"
-        />
-        <input
-          type="email"
-          class="form-control mb-2"
-          placeholder="Email"
-          id="businessEmail"
-        />
-        <input
-          type="text"
-          class="form-control mb-2"
-          placeholder="Invoice Number"
-          id="invoiceNumber"
-        />
-        <input type="date" class="form-control mb-3" id="invoiceDate" />
+        <div class="form-group">
+          <label>Business Name:</label>
+          <input type="text" class="form-control" id="businessName">
+        </div>
+        <div class="form-group">
+          <label>ABN:</label>
+          <input type="text" class="form-control" id="businessABN">
+        </div>
+        <div class="form-group">
+          <label>Phone:</label>
+          <input type="text" class="form-control" id="businessPhone">
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" class="form-control" id="businessEmail">
+        </div>
+        <div class="form-group">
+          <label>Invoice Number:</label>
+          <input type="text" class="form-control" id="invoiceNumber">
+        </div>
+        <div class="form-group">
+          <label>Invoice Date:</label>
+          <input type="date" class="form-control" id="invoiceDate">
+        </div>
 
         <h5>Services/Products</h5>
-        <div id="servicesList"></div>
-        <div class="row g-2 mb-2">
-          <div class="col-md-4">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Service"
-              id="newService"
-            />
+        <div id="services"></div>
+        <div class="form-row">
+          <div class="form-group col">
+            <input type="text" class="form-control" placeholder="Service" id="serviceName">
           </div>
-          <div class="col-md-4">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Description"
-              id="newDescription"
-            />
+          <div class="form-group col">
+            <input type="text" class="form-control" placeholder="Description" id="serviceDescription">
           </div>
-          <div class="col-md-2">
-            <input
-              type="number"
-              class="form-control"
-              placeholder="Total"
-              id="newTotal"
-            />
+          <div class="form-group col">
+            <input type="number" class="form-control" placeholder="Total" id="serviceTotal">
           </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary w-100" onclick="addService()">
-              Add
-            </button>
+          <div class="form-group col-auto">
+            <button class="btn btn-primary" onclick="addService()">Add Service</button>
           </div>
         </div>
       </div>
 
       <!-- Invoice Preview -->
-      <div class="invoice-preview">
-        <div id="invoiceContent">
-          <p><strong>From:</strong></p>
-          <p id="previewSenderName"></p>
-          <p id="previewSenderPhone"></p>
-          <p id="previewSenderEmail"></p>
-          <p id="previewSenderABN"></p>
+      <div class="col-md-5 invoice-section ml-md-3" id="invoicePreview">
+        <div>
+          <p><strong>From:</strong><br>
+            <span id="previewSenderName"></span><br>
+            Phone: <span id="previewSenderNumber"></span><br>
+            Email: <span id="previewSenderEmail"></span><br>
+            ABN: <span id="previewSenderABN"></span>
+          </p>
 
-          <h4 id="previewBusinessName" class="mt-3"></h4>
-          <p id="previewBusinessABN"></p>
-          <p id="previewBusinessPhone"></p>
-          <p id="previewBusinessEmail"></p>
+          <p class="h4 business-name" id="previewBusinessName"></p>
+          <p>ABN: <span id="previewBusinessABN"></span><br>
+            Phone: <span id="previewBusinessPhone"></span><br>
+            Email: <span id="previewBusinessEmail"></span>
+          </p>
 
-          <h5>Invoice #<span id="previewInvoiceNumber"></span></h5>
-          <p>Date: <span id="previewInvoiceDate"></span></p>
+          <p><strong>Invoice #</strong><span id="previewInvoiceNumber"></span><br>
+            Date: <span id="previewInvoiceDate"></span>
+          </p>
 
-          <table class="table table-bordered">
+          <table class="table">
             <thead>
               <tr>
                 <th>Product/Service</th>
@@ -207,111 +169,109 @@
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody id="previewServices"></tbody>
+            <tbody id="invoiceItems"></tbody>
           </table>
-          <h5 class="text-end">Total: $<span id="previewTotal">0.00</span></h5>
+
+          <h5 class="text-right">Total: $<span id="totalAmount">0.00</span></h5>
         </div>
-        <button class="btn btn-primary mt-3 no-print" onclick="window.print()">
-          Generate PDF
-        </button>
+        <button class="btn btn-primary no-print mt-3" onclick="window.print()">Generate PDF</button>
       </div>
     </div>
+  </div>
 
-    <script>
-      const updatePreview = () => {
-        document.getElementById("previewSenderName").innerText =
-          document.getElementById("senderName").value;
-        document.getElementById("previewSenderPhone").innerText =
-          "Phone: " + document.getElementById("senderPhone").value;
-        document.getElementById("previewSenderEmail").innerText =
-          "Email: " + document.getElementById("senderEmail").value;
-        document.getElementById("previewSenderABN").innerText =
-          "ABN: " + document.getElementById("senderABN").value;
+  <script>
+    const inputIds = [
+      "senderName", "senderNumber", "senderEmail", "senderABN",
+      "businessName", "businessABN", "businessPhone", "businessEmail",
+      "invoiceNumber", "invoiceDate"
+    ];
 
-        document.getElementById("previewBusinessName").innerText =
-          document.getElementById("businessName").value;
-        document.getElementById("previewBusinessABN").innerText =
-          "ABN: " + document.getElementById("businessABN").value;
-        document.getElementById("previewBusinessPhone").innerText =
-          "Phone: " + document.getElementById("businessPhone").value;
-        document.getElementById("previewBusinessEmail").innerText =
-          "Email: " + document.getElementById("businessEmail").value;
+    function updatePreview() {
+      document.getElementById("previewSenderName").textContent = senderName.value;
+      document.getElementById("previewSenderNumber").textContent = senderNumber.value;
+      document.getElementById("previewSenderEmail").textContent = senderEmail.value;
+      document.getElementById("previewSenderABN").textContent = senderABN.value;
 
-        document.getElementById("previewInvoiceNumber").innerText =
-          document.getElementById("invoiceNumber").value;
-        document.getElementById("previewInvoiceDate").innerText = new Date(
-          document.getElementById("invoiceDate").value
-        ).toLocaleDateString();
-      };
+      document.getElementById("previewBusinessName").textContent = businessName.value;
+      document.getElementById("previewBusinessABN").textContent = businessABN.value;
+      document.getElementById("previewBusinessPhone").textContent = businessPhone.value;
+      document.getElementById("previewBusinessEmail").textContent = businessEmail.value;
 
-      const updateTotal = () => {
-        const totals = document.querySelectorAll(".service-total");
-        let sum = 0;
-        totals.forEach((el) => {
-          sum += parseFloat(el.innerText.replace("$", "")) || 0;
-        });
-        document.getElementById("previewTotal").innerText = sum.toFixed(2);
-      };
+      document.getElementById("previewInvoiceNumber").textContent = invoiceNumber.value;
+      document.getElementById("previewInvoiceDate").textContent = invoiceDate.value;
+    }
 
-      const addService = () => {
-        const name = document.getElementById("newService").value;
-        const desc = document.getElementById("newDescription").value;
-        const total = parseFloat(
-          document.getElementById("newTotal").value
-        ).toFixed(2);
+    inputIds.forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener("input", () => {
+        updatePreview();
+        saveToLocalStorage();
+      });
+    });
 
-        if (!name || !desc || isNaN(total)) return;
+    function addService() {
+      const name = document.getElementById("serviceName").value;
+      const desc = document.getElementById("serviceDescription").value;
+      const total = parseFloat(document.getElementById("serviceTotal").value).toFixed(2);
 
-        const row = document.createElement("div");
-        row.className = "d-flex align-items-center mb-2";
+      if (!name || !desc || isNaN(total)) return;
 
-        row.innerHTML = `
-        <input type="text" class="form-control me-2" value="${name}" readonly>
-        <input type="text" class="form-control me-2" value="${desc}" readonly>
-        <input type="text" class="form-control me-2" value="${total}" readonly>
-        <button class="btn btn-danger btn-sm remove-btn" onclick="this.parentElement.remove(); renderServices()">×</button>
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${name}</td>
+        <td>${desc}</td>
+        <td>$${total}</td>
+      `;
+      document.getElementById("invoiceItems").appendChild(row);
+
+      const totalAmount = document.getElementById("totalAmount");
+      totalAmount.textContent = (parseFloat(totalAmount.textContent) + parseFloat(total)).toFixed(2);
+
+      document.getElementById("services").innerHTML += `
+        <div class="form-row">
+          <div class="form-group col">
+            <input type="text" class="form-control" value="${name}" readonly>
+          </div>
+          <div class="form-group col">
+            <input type="text" class="form-control" value="${desc}" readonly>
+          </div>
+          <div class="form-group col">
+            <input type="text" class="form-control" value="${total}" readonly>
+          </div>
+          <div class="form-group col-auto">
+            <button class="btn btn-danger remove-btn" onclick="this.parentElement.parentElement.remove()">Remove</button>
+          </div>
+        </div>
       `;
 
-        document.getElementById("servicesList").appendChild(row);
-        renderServices();
+      document.getElementById("serviceName").value = "";
+      document.getElementById("serviceDescription").value = "";
+      document.getElementById("serviceTotal").value = "";
+    }
 
-        document.getElementById("newService").value = "";
-        document.getElementById("newDescription").value = "";
-        document.getElementById("newTotal").value = "";
-      };
-
-      const renderServices = () => {
-        const list = document.getElementById("servicesList").children;
-        const tableBody = document.getElementById("previewServices");
-        tableBody.innerHTML = "";
-        let totalSum = 0;
-
-        for (let row of list) {
-          const inputs = row.querySelectorAll("input");
-          const service = inputs[0].value;
-          const desc = inputs[1].value;
-          const total = parseFloat(inputs[2].value).toFixed(2);
-          totalSum += parseFloat(total);
-
-          tableBody.innerHTML += `
-          <tr>
-            <td>${service}</td>
-            <td>${desc}</td>
-            <td class="service-total">$${total}</td>
-          </tr>
-        `;
+    function saveToLocalStorage() {
+      inputIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          localStorage.setItem(id, el.value);
         }
-        document.getElementById("previewTotal").innerText = totalSum.toFixed(2);
-      };
-
-      // Update preview live
-      document.querySelectorAll("input").forEach((input) => {
-        input.addEventListener("input", updatePreview);
       });
+    }
 
-      document
-        .getElementById("invoiceDate")
-        .addEventListener("change", updatePreview);
-    </script>
-  </body>
+    function loadFromLocalStorage() {
+      inputIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && localStorage.getItem(id)) {
+          el.value = localStorage.getItem(id);
+          el.dispatchEvent(new Event("input"));
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadFromLocalStorage();
+      updatePreview();
+    });
+  </script>
+</body>
 </html>
