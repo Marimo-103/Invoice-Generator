@@ -107,6 +107,17 @@
           <button class="btn btn-primary w-100" onclick="addService()">Add</button>
         </div>
       </div>
+
+      <hr>
+      <h5>Payment Details</h5>
+      <div class="row g-2 mb-3">
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="BSB" id="paymentBSB">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Account Number" id="paymentAccount">
+        </div>
+      </div>
     </div>
 
     <!-- Invoice Preview -->
@@ -138,6 +149,14 @@
           </tbody>
         </table>
         <h5 class="text-end">Total: $<span id="previewTotal">0.00</span></h5>
+
+        <!-- Static Payment Info -->
+        <div class="mt-4">
+          <p><strong>Please make payment to:</strong></p>
+          <p>BSB: <span id="previewBSB">062 191</span></p>
+          <p>Account Number: <span id="previewAccount">1112 0829</span></p>
+          <p>When making payment, please include your invoice number or company name in your payment description.</p>
+        </div>
       </div>
       <button class="btn btn-primary mt-3 no-print" onclick="window.print()">Generate PDF</button>
     </div>
@@ -157,6 +176,10 @@
 
       document.getElementById("previewInvoiceNumber").innerText = document.getElementById("invoiceNumber").value;
       document.getElementById("previewInvoiceDate").innerText = new Date(document.getElementById("invoiceDate").value).toLocaleDateString();
+
+      // Update payment info
+      document.getElementById("previewBSB").innerText = document.getElementById("paymentBSB").value || "062 191";
+      document.getElementById("previewAccount").innerText = document.getElementById("paymentAccount").value || "1112 0829";
     };
 
     const updateTotal = () => {
@@ -217,7 +240,6 @@
       document.getElementById("previewTotal").innerText = totalSum.toFixed(2);
     };
 
-    // Update preview live
     document.querySelectorAll("input").forEach(input => {
       input.addEventListener("input", updatePreview);
     });
